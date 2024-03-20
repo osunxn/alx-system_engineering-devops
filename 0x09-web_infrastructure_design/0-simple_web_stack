@@ -1,0 +1,121 @@
+https://imgur.com/V57CmAJ
+
+
+                      +-----------------------------------+
+                      |           www.foobar.com          |
+                      |            (Domain Name)          |
+          	      +-----------------+-----------------+
+                         	        |
+                                        v
+                  +---------------------|---------------------+
+                  |                                           |
+                  |                                           |
+                  |               Load Balancer               |
+                  |              (HAproxy Cluster)            |
+                  |                                           |
+                  +---------------------+---------------------+
+                                        |
+                    +-------------------|------------------+
+                    |                   v                  |
++-------------------|-------------------|------------------|------------------+
+|                   |                   |                  |                  |
+|                   v                   v                  v                  v
+|           +---------------+    +----------------+   +----------------+   +----------------+
+|           |    Server     |    |   Web Server   |   |   Application  |   |   Database     |
+|           |               |    |    (Nginx)     |   |      Server    |   |    (MySQL)     |
+|           |               |    |                |   |                |   |                |
+|           |               |    |                |   |                |   |                |
+|           +---------------+    +----------------+   +----------------+   +----------------+
+|                   ^                   ^                  ^                  ^
++-------------------|-------------------|------------------|------------------+
+                    |                   |                  |
+                    +-------------------+------------------+
+
+
+Components:
+
+Server:
+
+Definition: A physical or virtual machine that hosts the entire web infrastructure.
+Role: Hosts the web server, application server, and database components.
+Web Server (Nginx):
+
+Definition: A web server software that serves static content and handles incoming HTTP requests.
+Role: Responsible for serving static files, managing connections, and directing dynamic requests
+to the application server.
+
+Application Server:
+
+Definition: Executes the application code, processes business logic, and generates dynamic content.
+Role: Handles dynamic parts of the website, interacts with the database, and generates HTML dynamically.
+
+Application Files (Code Base):
+
+Definition: The collection of source code, scripts, and assets that make up the website's application.
+Role: Contains the logic and functionalities that define the behavior of the website.
+
+Database (MySQL):
+
+Definition: A relational database management system (RDBMS) that stores and manages data.
+Role: Stores and retrieves data for the website, such as user information, articles, or any other relevant data.
+
+Domain Name (www.foobar.com):
+
+Definition: A human-readable name that maps to the server's IP address.
+Role: Allows users to access the website using a memorable domain name instead of an IP address.
+Specifics:
+
+What is a Server:
+
+A server is a computer or system that provides services, resources, or functionalities to
+other computers, known as clients, over a network.
+
+Role of the Domain Name:
+
+A domain name provides a human-readable alias for the server's IP address,
+making it easier for users to access the website.
+
+Type of DNS Record for www.foobar.com:
+
+The DNS record type for www.foobar.com is an A (Address) record, mapping the domain to
+the server's IP address (8.8.8.8).
+
+Role of the Web Server (Nginx):
+
+The web server (Nginx) serves static content, handles HTTP requests, and forwards dynamic 
+requests to the application server.
+
+Role of the Application Server:
+
+The application server executes dynamic code, processes business logic, and generates dynamic content
+in response to user requests.
+
+Role of the Database (MySQL):
+
+The database (MySQL) stores and manages data, providing a structured way to organize and retrieve information.
+
+Server Communication with User's Computer:
+
+The server communicates with the user's computer over the Internet using the
+HTTP/HTTPS protocols, responding to requests and serving content.
+
+Issues with the Infrastructure:
+
+Single Point of Failure (SPOF):
+
+The entire infrastructure relies on a single server, leading to a SPOF. If the server goes down,
+the entire website becomes inaccessible.
+
+Downtime During Maintenance:
+
+Performing maintenance, such as deploying new code or restarting the web server,
+results in downtime, impacting user access.
+
+Limited Scalability:
+
+The infrastructure may struggle to handle high traffic since scaling is limited to a single server.
+As traffic increases, performance may degrade.
+
+This simple web stack serves as a starting point but has limitations in terms of reliability, scalability,
+and maintainability. Addressing these issues may involve introducing redundancy, load balancing,
+and distributed architectures.

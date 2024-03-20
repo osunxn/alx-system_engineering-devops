@@ -1,0 +1,70 @@
+https://imgur.com/IPtmJBw
+
+
+                         +-------------------------------------+
+                         |            www.foobar.com           |
+                         |             (Domain Name)           |
+                         +-----------------+-------------------+
+                                           |
+                                           v
+ +------------------+     +----------------|------------------+     +------------------+
+ |    Load Balancer  |---->|   Web Server  |    Application   |     |    Database      |
+ |    (HAproxy)      |     |   (Nginx)     |      Server      |     |    (MySQL)       |
+ +------------------+     +----------------+-------------------+    +------------------+
+      ^                      ^    ^    ^           ^    ^    ^             ^    ^    ^
+      |                      |    |    |           |    |    |             |    |    |
++-----|----------------------|----|----|-----------|----|----|-------------|----|----|----+
+|     |                      |    |    |           |    |    |             |    |    |    |
+|     v                      v    v    v           v    v    v             v    v    v    |
+|  +-----------------+   +-----------------+   +-----------------+   +-----------------+  |
+|  |   Application   |   |   Application   |   |   Application   |   |   Application  |   |
+|  |    Files (Code) |   |   Files (Code)  |   |   Files (Code)  |   |    Files (Code)|   |
+|  +-----------------+   +-----------------+   +-----------------+   +-----------------+  |
+|                                                                                         |
++-----------------------------------------------------------------------------------------+
+
+
+Components:
+
+Domain Name (www.foobar.com): Represents the human-readable address used by users to access the website.
+
+Load Balancer (HAproxy): Distributes incoming web traffic across multiple servers to ensure no
+single server bears too much load. It enhances fault tolerance and ensures high availability.
+
+Web Server (Nginx): Serves static content, manages SSL/TLS, and acts as a reverse proxy to
+forward requests to the application server.
+
+Application Server: Hosts the application logic and processes dynamic content. It communicates
+with the database to retrieve and store data.
+
+Database (MySQL): Stores and manages the website's data. In this case, it's set up as a
+Primary-Replica (Master-Slave) cluster for redundancy.
+
+Primary Node: Handles write operations and serves as the main node for data modifications.
+
+Replica Nodes: Replicate data from the primary node and handle read operations.
+They act as backups in case the primary node fails.
+
+Distribution Algorithm:
+
+The load balancer is configured with a Round Robin algorithm, distributing incoming
+requests equally among the available servers.
+
+Active-Active vs. Active-Passive Setup:
+
+The setup is Active-Active, where both servers actively handle incoming traffic.
+This ensures optimal resource utilization and redundancy.
+
+Issues with the Infrastructure:
+
+Single Point of Failure (SPOF): The load balancer, web server, and application server could be
+potential SPOFs if any of them fails.
+
+Security Issues:
+
+No firewall: Lack of a firewall exposes servers to potential security threats.
+
+No HTTPS: Lack of HTTPS encryption poses a security risk for data transmission.
+
+No Monitoring: Without a monitoring system, it's challenging to identify performance bottlenecks,
+potential failures, or security breaches.

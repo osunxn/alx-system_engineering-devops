@@ -1,0 +1,61 @@
+https://imgur.com/IPtmJBw
+
+									+-----------------------------------------+
+                                    |                www.foobar.com           |
+                                    |                (Domain Name)            |
+                                    +---------------------+-------------------+
+                                    |                     |                   |
+                                    |                     |                   |
+              +---------------------|---------------------|-------------------|-------------------+
+              |                     v                   v                     v                   |
+        +-----|-----+           +-----|-----+       +-----|-----+       +-----|-----+       +-----|-----+
+        |  Load 1   |           |  Load 2   |       |    Web    |       |Application|       | Database  |
+        |  Balancer |           |  Balancer |       |   Server  |       |   Server  |       |  Server   |
+        +-----|-----+           +-----|-----+       +-----|-----+       +-----|-----+       +-----|-----+
+              |                       |                   |                   |                    --------|
+  +-----------|-----------------------|-------------------|-------------------|----------------------------|----------+
+  |           v                       v                   v                   v                            v          |
+  |  +----------------------+  +------------------+  +------------------+  +------------------+  +-----------------+  |
+  |  |      Web Server      |  |   Application 1  |  |   Application 2  |  |   Application 3  |  |     Database    |  |
+  |  | (Nginx, Apache, etc.)|  |        Server    |  |        Server    |  |        Server    |  |   (MySQL, etc.) |  |
+  |  +----------------------+  +------------------+  +------------------+  +------------------+  +-----------------+  |
+  |                                                                                                                   |
+  +-------------------------------------------------------------------------------------------------------------------+
+
+
+Components:
+
+Load Balancers (Load Balancer 1, Load Balancer 2): Load balancers are added to distribute incoming traffic evenly
+among multiple servers. They enhance scalability, improve fault tolerance, and optimize resource utilization.
+
+Web Server (Web Server): The web server (Nginx, Apache, etc.) handles static content, serves as a reverse proxy,
+and manages SSL termination for secure communication.
+
+Application Servers (Application Server 1, Application Server 2, Application Server 3): Application servers host
+the application logic, handle dynamic content generation, and process user requests. Distributing the load across
+multiple application servers improves performance and reliability.
+
+Database Server (Database Server): The database server stores and manages data. It is separate from other components
+for scalability, data integrity, and to prevent bottlenecks.
+
+Specifics:
+
+Why Load Balancers: Load balancers distribute incoming traffic, ensuring high availability, redundancy, and improved
+performance. They also enable easy scalability by adding more servers.
+
+Why Web Server: The web server handles static content, manages SSL termination, and acts as a reverse proxy.
+This separation allows for efficient handling of web-related tasks.
+
+Why Application Servers: Application servers host the application logic and process dynamic content. Multiple
+application servers distribute the load, provide redundancy, and enhance responsiveness.
+
+Why Database Server: The database server stores and manages data. Separating it from other servers ensures data
+integrity, scalability, and efficient resource utilization.
+
+Issues:
+
+Single Point of Failure (SPOF): The load balancers themselves may become a single point of failure. Configuring
+them in a cluster enhances reliability.
+
+Security: Ensure proper security measures for communication between components, secure configurations, and regular
+updates.

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# This script displays all active IPv4 IPs on the machine it's executed on.
+
+# Extract IPv4 addresses using the 'ip' command
+# Filter out loopback and link-local addresses
+# Display the result
+ip -o -4 addr show scope global | awk '{print $4}' | cut -d'/' -f1

@@ -1,0 +1,75 @@
+https://imgur.com/KWMs30K
+
+
+                                       +-------------------------------------+
+                                       |           www.foobar.com            |
+                                       |            (Domain Name)            |
+                                       +------------------+------------------+
+                                       |                  |                  |
+                     +-----------------|------------------|------------------|-----------------+
+                     |                 v                  v                  v                 |
+               +-----|-----+     +-----|-----+      +-----|-----+      +-----|-----+     +-----|-----+
+               | Firewall  |     |  Firewall |      | Firewall  |      |    Load   |     |    Web    |
+               |     1     |     |     2     |      |     3     |      |  Balancer |     |  Server   |
+               +-----|-----+     +-----|-----+      +-----|-----+      +-----|-----+     +-----|-----+
+                     |                 |                  |                  |                 |
+        +------------|-----------------|------------------|------------------|-----------------+
+        |            v                 v                  v                  v                 |
+  +-----|-----+  +-----|-----+   +-----|-----+      +-----|-----+      +-----|-----+     +-----|-----+
+  |  Firewall |   |  Firewall |  | Firewall  |      |Application|      |Application|     |Application|
+  |     4     |   |    5      |  |     6     |      |   Server  |      |   Server  |     |  Server   |
+  +-----|-----+  +-----|-----+   +-----|-----+      +-----|-----+      +-----|-----+     +-----|-----+
+        |            |                 |                  |                  |                 |
+  +-----|------------|-----------------|------------------|------------------|-----------------|-----+
+  | Monitoring |   | Monitoring |   | Monitoring |  |    Database   |  | Monitoring |   | Monitoring |
+  |  Client 1  |   |  Client 2  |   |  Client 3  |  |    (MySQL)    |  |  Client 4  |   |  Client 5  |
+  +------------+   +------------+   +------------+  +---------------+  +------------+   +------------+
+
+
+Components:
+
+
+Firewalls (Firewall 1, Firewall 2, Firewall 3): Firewalls are added to control incoming and outgoing network traffic
+based on predetermined security rules. They act as barriers between the server infrastructure and potential threats.
+
+Load Balancer (Load Balancer): Distributes incoming web traffic across multiple servers for load balancing and
+high availability.
+
+Web Server (Web Server): Serves static content and manages SSL/TLS, providing encrypted traffic to users.
+Application Servers (Application Server 1, Application Server 2, Application Server 3):Host the application logic, 
+process dynamic content, and communicate with the database.
+
+Database (MySQL): Stores and manages website data securely. Set up as a cluster for redundancy and distributed load.
+
+Monitoring Clients (Monitoring Client 1, Monitoring Client 2, Monitoring Client 3, Monitoring Client 4, Monitoring
+Client 5): Collect data on server performance, security, and other metrics for monitoring purposes.
+
+Specifics:
+
+Why Firewalls: Protect against unauthorized access, secure the network, and filter traffic based on security rules.
+
+Why HTTPS: Serves encrypted traffic to protect data during transmission, enhancing security.
+
+Why Monitoring: Monitors server performance, identifies issues, and ensures the health and availability of the
+infrastructure.
+
+How Monitoring Tool Collects Data: The monitoring tool collects data through agents (Monitoring Clients)
+installed on each server. These agents collect and send performance metrics and logs to a central monitoring service.
+
+Monitoring Web Server QPS: To monitor Web Server QPS, set up specific metrics in the monitoring tool to
+track queries per second (QPS) on the web server.
+
+Issues:
+
+Terminating SSL at the Load Balancer Level: Terminating SSL at the load balancer means SSL decryption
+happens at the load balancer, which may expose sensitive information. It's better to use end-to-end encryption.
+
+Single MySQL Server Accepting Writes: A single MySQL server capable of accepting writes is a single point of
+failure (SPOF). Consider a Primary-Replica (Master-Slave) configuration for high availability.
+
+Identical Server Components: Having servers with all the same components may lead to a lack of
+diversity and could be problematic for security. Different components may have different vulnerabilities,
+and diversity can enhance security.
+
+This infrastructure provides enhanced security, encryption, and monitoring, but continuous improvements
+and adjustments are essential for maintaining a robust and secure environment.
