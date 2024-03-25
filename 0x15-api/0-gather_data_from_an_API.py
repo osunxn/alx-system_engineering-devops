@@ -31,6 +31,7 @@ if __name__ == "__main__":
     total_done_tasks = len(done_tasks)
 
     # Displaying the information
-    print("Employee {} is done with tasks({}/{}):".format(employee_name, total_done_tasks, total_tasks))
+    print("Employee {} is done with tasks({}/{}):".format(
+        employee_name, total_done_tasks, total_tasks))
     for task in done_tasks:
         print("\t {}".format(task.get('title')))
