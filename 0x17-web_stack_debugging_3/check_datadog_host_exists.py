@@ -4,7 +4,7 @@ import requests
 url = "https://api.datadoghq.com/api/v1/hosts"
 
 # Datadog API key
-api_key = "YOUR_API_KEY_HERE"
+api_key = "a9d79b90c3e788ea0f24d9ae4c71f589"
 
 # Function to check if the host exists
 def check_host_exists(api_key, hostname):
