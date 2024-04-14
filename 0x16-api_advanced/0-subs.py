@@ -6,6 +6,7 @@ If an invalid subreddit is given, the function should return 0
 """
 
 import requests
+import json
 
 def number_of_subscribers(subreddit):
     """
@@ -17,10 +18,12 @@ def number_of_subscribers(subreddit):
         headers={"User-Agent": "Custom"},
     )
 
-    if req.status_code == 200:
-        return req.json().get("data").get("subscribers")
-    elif req.status_code == 404:  # Not Found
-        return 0
-    else:
-        # Handle other status codes if needed
+    try:
+        data = req.json()
+        if 'data' in data and 'subscribers' in data['data']:
+            return data['data']['subscribers']
+        else:
+            return 0
+    except json.decoder.JSONDecodeError:
+        # If JSON decoding fails, indicating invalid response
         return 0
