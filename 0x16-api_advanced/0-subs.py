@@ -18,7 +18,9 @@ def number_of_subscribers(subreddit):
     )
 
     if req.status_code == 200:
-        data = req.json().get("data", None)
-        if data is not None:
-            return data.get("subscribers", 0)
-    return 0
+        return req.json().get("data").get("subscribers")
+    elif req.status_code == 404:  # Not Found
+        return 0
+    else:
+        # Handle other status codes if needed
+        return 0
