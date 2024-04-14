@@ -9,13 +9,21 @@ def number_of_subscribers(subreddit):
     Function that queries the Reddit API
     - If not a valid subreddit, return 0.
     """
-    req = requests.get(
-        "https://www.reddit.com/r/{}/about.json".format(subreddit),
-        headers={"User-Agent": "Custom"},
-        allow_redirects=False  # Ensure that we don't follow redirects
-    )
+    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
+    headers = {"User-Agent": "Custom"}
 
-    if req.status_code == 200:
-        return req.json().get("data").get("subscribers")
-    else:
+    try:
+        req = requests.get(url, headers=headers)
+        req.raise_for_status()  # Raise an exception for HTTP errors
+
+        data = req.json().get("data")
+        if data and "subscribers" in data:
+            return data["subscribers"]
+        else:
+            return 0
+
+    except requests.exceptions.RequestException as e:
+        return 0
+    except (KeyError, TypeError):
+        # Handle exceptions for accessing nested keys or invalid JSON response
         return 0
