@@ -1,38 +1,35 @@
 #!/usr/bin/python3
 """Function to print hot posts on a given Reddit subreddit."""
 import requests
-import sys
 
 def top_ten(subreddit):
     """Print the titles of the 10 hottest posts on a given subreddit."""
-    url = f"https://www.reddit.com/r/{subreddit}/hot/.json"
-    headers = {"User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"}
-    params = {"limit": 10}
+    url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
+    headers = {
+        "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
+    }
+    params = {
+        "limit": 10
+    }
+    response = requests.get(url, headers=headers, params=params,
+                            allow_redirects=False)
 
-    # Check if subreddit exists
-    exists = subreddit_exists(subreddit)
-    if not exists:
-        print(f"Subreddit '{subreddit}' does not exist.")
+    if response.status_code == 404:
+        print("None")
         return
 
-    response = requests.get(url, headers=headers, params=params)
-
-    # Check for HTTP errors
-    if response.status_code != 200:
-        print(f"Failed to retrieve data from Reddit: {response.status_code}")
+    # Check if the response content is JSON
+    try:
+        data = response.json()
+    except ValueError:  # If not JSON, print None
+        print("None")
         return
 
-    data = response.json().get("data")
-    if not data:
-        print("No posts found.")
+    # Check if the subreddit exists
+    if "error" in data:
+        print("None")
         return
 
-    posts = data.get("children")
-    for post in posts:
-        print(post.get("data").get("title"))
-
-def subreddit_exists(subreddit):
-    """Check if a subreddit exists."""
-    url = f"https://www.reddit.com/r/{subreddit}/about.json"
-    response = requests.get(url)
-    return response.status_code == 200
+    # Extract and print titles of the posts
+    for post in data.get("data", {}).get("children", []):
+        print(post.get("data", {}).get("title"))
