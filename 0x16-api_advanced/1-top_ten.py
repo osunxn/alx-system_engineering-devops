@@ -9,29 +9,39 @@ the function should return None.
 import requests
 
 def top_ten(subreddit):
-    """Print the titles of the 10 hottest posts on a given subreddit."""
-    url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
-    headers = {
-        "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
-    }
-    params = {
-        "limit": 10
-    }
+    """
+    Queries the Reddit API and prints the titles of the first 10 hot posts
+    listed for a given subreddit.
+
+    Args:
+        subreddit (str): The name of the subreddit to search.
+
+    Returns:
+        None
+    """
+    url = f"https://www.reddit.com/r/{subreddit}/hot/.json"
+    headers = {"User-Agent": "Custom"}
 
     try:
-        response = requests.get(url, headers=headers, params=params, allow_redirects=False)
+        response = requests.get(url, headers=headers)
         response.raise_for_status()  # Raise an error for invalid response status
 
         data = response.json().get("data")
-        children = data.get("children")
+        if not data:
+            print("None")
+            return
 
+        children = data.get("children")
         if not children:
             print("None")
             return
 
-        for child in children:
-            print(child.get("data").get("title"))
-
+        for i, child in enumerate(children[:10]):
+            title = child.get("data", {}).get("title")
+            if title:
+                print(title)
+            else:
+                print("[No title]")
     except requests.exceptions.RequestException as e:
         print("Error: {}".format(e))
-
+        print("None")
