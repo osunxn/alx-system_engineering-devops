@@ -3,6 +3,7 @@
 1-top_ten
 """
 import requests
+import json
 
 
 def top_ten(subreddit):
@@ -13,12 +14,13 @@ def top_ten(subreddit):
     url = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
     headers = {'User-Agent': 'Mozilla/5.0'}
     response = requests.get(url, headers=headers, allow_redirects=False)
-    if response.status_code == 200:
-        data = response.json().get('data')
+
+    try:
+        data = response.json().get('data', {}).get('children', [])
         if data:
-            children = data.get('children')
-            if children:
-                for post in children[:10]:
-                    print(post.get('data').get('title'))
-                return
-    print(None)
+            for post in data[:10]:
+                print(post.get('data').get('title'))
+        else:
+            print(None)
+    except json.JSONDecodeError:
+        print(None)
